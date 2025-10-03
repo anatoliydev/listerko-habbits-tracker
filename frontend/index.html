@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Supabase Login MVP</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<main id="app">
+    <section id="auth-view">
+        <h1>Welcome</h1>
+        <p>Sign in with email:</p>
+        <input id="email" type="email" placeholder="you@example.com" />
+        <button id="emailSignIn">Send magic link</button>
+
+        <div class="sep">or</div>
+        <button id="googleSignIn">Sign in with Google</button>
+
+        <p id="authMessage" class="muted"></p>
+    </section>
+
+    <section id="app-view" hidden>
+        <h2 id="hello"></h2>
+        <form id="mini-form">
+            <label>
+                Your task:
+                <input id="taskName" type="text" placeholder="Drink water" />
+            </label>
+            <button type="submit">Save</button>
+        </form>
+        <button id="logout">Log out</button>
+        <pre id="debug"></pre>
+    </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

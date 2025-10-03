@@ -1,0 +1,8 @@
+body { font-family: system-ui, sans-serif; margin: 0; }
+main { max-width: 520px; margin: 40px auto; padding: 24px; border: 1px solid #eee; border-radius: 12px; }
+input { padding: 10px; width: 100%; margin: 8px 0 12px; }
+button { padding: 10px 14px; border: 0; border-radius: 8px; cursor: pointer; }
+button:hover { opacity: .9; }
+.sep { margin: 12px 0; color: #999; text-align: center; }
+.muted { color: #666; }
+pre { background: #f6f8fa; padding: 12px; border-radius: 8px; overflow: auto; }

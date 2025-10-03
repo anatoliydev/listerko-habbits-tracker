@@ -1,0 +1,61 @@
+# =========================
+# Global
+# =========================
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+*.log
+*.tmp
+*.swp
+*.bak
+
+# IDE / Editors
+.idea/
+.vscode/
+*.iml
+*.class
+
+# =========================
+# Frontend (inside /frontend)
+# =========================
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.env
+frontend/.env.local
+frontend/config.js.local
+
+# =========================
+# Backend (inside /backend)
+# =========================
+# Maven / Gradle builds
+backend/target/
+backend/out/
+backend/build/
+backend/.gradle/
+backend/*.iml
+backend/*.ipr
+backend/*.iws
+
+# Logs
+backend/*.log
+
+# Spring Boot specifics
+backend/*.jar
+backend/*.war
+backend/*.ear
+
+# =========================
+# Supabase CLI (if used)
+# =========================
+supabase/.temp/
+supabase/.env
+
+# =========================
+# OS specific
+# =========================
+ehthumbs.db
+Icon?
+
+.idea
