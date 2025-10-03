@@ -2,8 +2,8 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ["main"]   # запускаємо деплой при пуші в main
-  workflow_dispatch:     # дозволяє запускати вручну з GitHub Actions
+    branches: ["main"]       # деплой при пуші в main
+  workflow_dispatch:         # і можливість запуску вручну
 
 permissions:
   contents: read
@@ -19,17 +19,18 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout
         uses: actions/checkout@v4
 
+      # якщо в тебе немає build-кроку — одразу пакуємо папку frontend
+      # якщо буде build (npm build) — просто додай його перед Upload artifact
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./frontend   # саме цю папку заливаємо (у тебе там index.html)
+          path: ./frontend
 
       - name: Deploy to GitHub Pages
         id: deployment
