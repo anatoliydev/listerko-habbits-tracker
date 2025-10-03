@@ -10,7 +10,7 @@ const debug    = document.getElementById('debug');
 
 document.getElementById('emailSignIn').onclick = async () => {
   const email = emailInp.value.trim();
-  if (!email) { authMsg.textContent = 'Enter email'; return; }
+  if (!email) { authMsg.textContent = 'Enter email:'; return; }
   authMsg.textContent = 'Sending magic link...';
   const { error } = await supabase.auth.signInWithOtp({
     email,
