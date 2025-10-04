@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Listerko Habit Grid</title>
+    <style>
+        body {
+          margin: 0;
+          font-family: Arial, sans-serif;
+          background-color: #0b0f14;
+          color: #e6eef7;
+        }
+        header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 12px 20px;
+          background: #111a24;
+          border-bottom: 1px solid #223041;
+        }
+        header h1 {
+          font-size: 16px;
+          margin: 0;
+        }
+        header .settings {
+          cursor: pointer;
+          font-size: 18px;
+        }
+        .habit-grid {
+          overflow-x: auto;
+          padding: 20px;
+        }
+        table {
+          border-collapse: collapse;
+          width: 100%;
+          min-width: 1000px;
+        }
+        th, td {
+          text-align: center;
+          padding: 4px;
+        }
+        th {
+          font-size: 12px;
+          color: #9db1c9;
+        }
+        th.today {
+          color: #3b82f6;
+          font-weight: bold;
+        }
+        td.habit-name {
+          text-align: left;
+          white-space: nowrap;
+          padding-right: 10px;
+        }
+        td.habit-name .color {
+          display: inline-block;
+          width: 14px;
+          height: 14px;
+          border-radius: 3px;
+          margin-right: 6px;
+        }
+        td.habit-name .edit {
+          float: right;
+          cursor: pointer;
+          font-size: 14px;
+          color: #7cc7ff;
+        }
+        .cell {
+          width: 20px;
+          height: 20px;
+          border-radius: 4px;
+          margin: 1px;
+          display: inline-block;
+          border: 1px solid #1b2a3a;
+          cursor: pointer;
+        }
+        .completed { border: none; }
+        .failed { background-color: #7a2e2e !important; border: none; }
+        .not-planned { background-color: #222 !important; border: 1px dashed #2a3a51; }
+        .not-tracked { background-color: transparent !important; border: 1px solid #2a3a51; }
+        tr:hover { background-color: rgba(255,255,255,0.03); }
+    </style>
+</head>
+<body>
+<header>
+    <h1>📊 Listerko</h1>
+    <div class="settings">⚙️</div>
+</header>
+
+<div class="habit-grid">
+    <table>
+        <thead>
+        <tr>
+            <th>Звичка</th>
+            <!-- Згенеруємо 15 днів -->
+            <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
+            <th>6</th><th>7</th><th class="today">8</th><th>9</th><th>10</th>
+            <th>11</th><th>12</th><th>13</th><th>14</th><th>15</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="habit-name"><span class="color" style="background:#3b82f6"></span>Біг <span class="edit">✏️</span></td>
+            <td><div class="cell completed" style="background:#3b82f6"></div></td>
+            <td><div class="cell failed"></div></td>
+            <td><div class="cell completed" style="background:#3b82f6"></div></td>
+            <td><div class="cell not-planned"></div></td>
+            <td><div class="cell not-tracked"></div></td>
+            <td><div class="cell completed" style="background:#3b82f6"></div></td>
+            <td><div class="cell completed" style="background:#3b82f6"></div></td>
+            <td><div class="cell completed" style="background:#3b82f6"></div></td>
+            <td><div class="cell failed"></div></td>
+            <td><div class="cell completed" style="background:#3b82f6"></div></td>
+            <td><div class="cell not-planned"></div></td>
+            <td><div class="cell not-planned"></div></td>
+            <td><div class="cell completed" style="background:#3b82f6"></div></td>
+            <td><div class="cell not-tracked"></div></td>
+            <td><div class="cell completed" style="background:#3b82f6"></div></td>
+        </tr>
+
+        <tr>
+            <td class="habit-name"><span class="color" style="background:#f59e0b"></span>Читання <span class="edit">✏️</span></td>
+            <td><div class="cell completed" style="background:#f59e0b"></div></td>
+            <td><div class="cell completed" style="background:#f59e0b"></div></td>
+            <td><div class="cell failed"></div></td>
+            <td><div class="cell completed" style="background:#f59e0b"></div></td>
+            <td><div class="cell not-planned"></div></td>
+            <td><div class="cell not-tracked"></div></td>
+            <td><div class="cell completed" style="background:#f59e0b"></div></td>
+            <td><div class="cell completed" style="background:#f59e0b"></div></td>
+            <td><div class="cell failed"></div></td>
+            <td><div class="cell completed" style="background:#f59e0b"></div></td>
+            <td><div class="cell not-planned"></div></td>
+            <td><div class="cell completed" style="background:#f59e0b"></div></td>
+            <td><div class="cell completed" style="background:#f59e0b"></div></td>
+            <td><div class="cell not-tracked"></div></td>
+            <td><div class="cell completed" style="background:#f59e0b"></div></td>
+        </tr>
+
+        <tr>
+            <td class="habit-name"><span class="color" style="background:#10b981"></span>Медитація <span class="edit">✏️</span></td>
+            <td><div class="cell not-planned"></div></td>
+            <td><div class="cell completed" style="background:#10b981"></div></td>
+            <td><div class="cell completed" style="background:#10b981"></div></td>
+            <td><div class="cell failed"></div></td>
+            <td><div class="cell completed" style="background:#10b981"></div></td>
+            <td><div class="cell not-tracked"></div></td>
+            <td><div class="cell completed" style="background:#10b981"></div></td>
+            <td><div class="cell completed" style="background:#10b981"></div></td>
+            <td><div class="cell completed" style="background:#10b981"></div></td>
+            <td><div class="cell not-planned"></div></td>
+            <td><div class="cell completed" style="background:#10b981"></div></td>
+            <td><div class="cell failed"></div></td>
+            <td><div class="cell completed" style="background:#10b981"></div></td>
+            <td><div class="cell not-tracked"></div></td>
+            <td><div class="cell completed" style="background:#10b981"></div></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

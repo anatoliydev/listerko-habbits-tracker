@@ -1,8 +1,433 @@
-body { font-family: system-ui, sans-serif; margin: 0; }
-main { max-width: 520px; margin: 40px auto; padding: 24px; border: 1px solid #eee; border-radius: 12px; }
-input { padding: 10px; width: 100%; margin: 8px 0 12px; }
-button { padding: 10px 14px; border: 0; border-radius: 8px; cursor: pointer; }
-button:hover { opacity: .9; }
-.sep { margin: 12px 0; color: #999; text-align: center; }
-.muted { color: #666; }
-pre { background: #f6f8fa; padding: 12px; border-radius: 8px; overflow: auto; }
+/* CSS Variables for theming */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --border-color: #eeeeee;
+  --input-bg: #ffffff;
+  --input-border: #cccccc;
+  --button-bg: #007bff;
+  --button-text: #ffffff;
+  --button-hover: #0056b3;
+  --muted-color: #666666;
+  --sep-color: #999999;
+  --pre-bg: #f6f8fa;
+  --pre-text: #333333;
+  --habit-bg: #f8f9fa;
+  --habit-border: #dee2e6;
+  --cell-border: #dee2e6;
+  --cell-not-planned: #f8f9fa;
+  --cell-not-tracked: #e9ecef;
+  --cell-failed: #dc3545;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --bg-color: #0b0f14;
+  --text-color: #e6eef7;
+  --border-color: #223041;
+  --input-bg: #2d2d2d;
+  --input-border: #555555;
+  --button-bg: #1e3a5f;
+  --button-text: #ffffff;
+  --button-hover: #2d4a6b;
+  --muted-color: #9db1c9;
+  --sep-color: #888888;
+  --pre-bg: #2d2d2d;
+  --pre-text: #ffffff;
+  --habit-bg: #111a24;
+  --habit-border: #223041;
+  --cell-border: #1b2a3a;
+  --cell-not-planned: #222222;
+  --cell-not-tracked: #2a3a51;
+  --cell-failed: #7a2e2e;
+}
+
+body { 
+  font-family: system-ui, sans-serif; 
+  margin: 0; 
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+main { 
+  max-width: 1400px; 
+  margin: 40px auto; 
+  padding: 24px; 
+  border: 1px solid var(--border-color); 
+  border-radius: 12px;
+  background-color: var(--bg-color);
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+input { 
+  padding: 10px; 
+  width: 100%; 
+  margin: 8px 0 12px; 
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text-color);
+  border-radius: 4px;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+input::placeholder {
+  color: var(--muted-color);
+}
+
+button { 
+  padding: 10px 14px; 
+  border: 0; 
+  border-radius: 8px; 
+  cursor: pointer; 
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+button:hover { 
+  opacity: .9; 
+  background-color: var(--button-hover);
+}
+
+.sep { 
+  margin: 12px 0; 
+  color: var(--sep-color); 
+  text-align: center; 
+}
+
+.muted { 
+  color: var(--muted-color); 
+}
+
+pre { 
+  background: var(--pre-bg); 
+  color: var(--pre-text);
+  padding: 12px; 
+  border-radius: 8px; 
+  overflow: auto; 
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.theme-icon {
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover .theme-icon {
+  transform: rotate(20deg);
+}
+
+/* Habit Tracker Styles */
+.habit-tracker {
+  margin: 20px 0;
+  background-color: var(--habit-bg);
+  border: 1px solid var(--habit-border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.habit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background-color: var(--habit-bg);
+  border-bottom: 1px solid var(--habit-border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.habit-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text-color);
+}
+
+.add-habit-btn {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.add-habit-btn:hover {
+  background-color: var(--button-hover);
+}
+
+.habit-grid {
+  overflow-x: auto;
+  padding: 20px;
+}
+
+
+
+#habits-table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 1200px; /* Wider for web version to fit 15+ days */
+  max-width: 100%;
+}
+
+#habits-table th,
+#habits-table td {
+  text-align: center;
+  padding: 8px 4px;
+  border: none;
+}
+
+#habits-table td:not(.habit-name) {
+  width: 24px;
+  min-width: 24px;
+  max-width: 24px;
+}
+
+#habits-table th {
+  font-size: 11px;
+  color: var(--muted-color);
+  font-weight: 500;
+  padding: 8px 2px;
+  width: 24px;
+  min-width: 24px;
+  max-width: 24px;
+}
+
+#habits-table th:first-child {
+  width: 150px;
+  min-width: 150px;
+  max-width: 150px;
+  text-align: left;
+  padding-left: 0;
+}
+
+/* Month headers */
+#month-headers-row th {
+  font-size: 10px;
+  color: var(--muted-color);
+  font-weight: 400;
+  padding: 2px 2px;
+  opacity: 0.7;
+  border-bottom: none;
+}
+
+#month-headers-row th:first-child {
+  border-bottom: none;
+}
+
+/* Week separator line */
+.week-separator {
+  position: relative;
+}
+
+.week-separator::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -96px; /* Extend left to reach between Friday and Saturday */
+  right: 0;
+  height: 1px;
+  background-color: var(--muted-color);
+  opacity: 0.3;
+}
+
+.week-separator::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  height: 8px;
+  background-color: var(--muted-color);
+  opacity: 0.5;
+}
+
+#habits-table th.today {
+  color: var(--button-bg);
+  font-weight: bold;
+}
+
+/* Dark theme specific today color */
+[data-theme="dark"] #habits-table th.today {
+  color: #4a6fa5;
+}
+
+#habits-table td.habit-name {
+  text-align: left;
+  white-space: nowrap;
+  padding-right: 10px;
+  width: 150px;
+  min-width: 150px;
+  max-width: 150px;
+  padding-left: 0;
+}
+
+#habits-table td.habit-name .color {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+#habits-table td.habit-name .edit {
+  float: right;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--button-bg);
+  margin-left: 8px;
+}
+
+/* Dark theme specific edit color */
+[data-theme="dark"] #habits-table td.habit-name .edit {
+  color: #4a6fa5;
+}
+
+#habits-table td.habit-name .delete {
+  float: right;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--cell-failed);
+  margin-left: 4px;
+}
+
+.cell {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  margin: 1px;
+  display: inline-block;
+  border: 1px solid var(--cell-border);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cell:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cell.completed {
+  border: none;
+}
+
+.cell.failed {
+  background-color: var(--cell-failed) !important;
+  border: none;
+}
+
+.cell.not-planned {
+  background-color: var(--cell-not-planned) !important;
+  border: 1px dashed var(--cell-border);
+}
+
+.cell.not-tracked {
+  background-color: transparent !important;
+  border: 1px solid var(--cell-border);
+}
+
+#habits-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+#habits-table tbody tr:hover td {
+  background-color: transparent;
+}
+
+/* Responsive design */
+@media (max-width: 1600px) {
+  main {
+    max-width: 1200px;
+  }
+}
+
+@media (max-width: 1400px) {
+  main {
+    max-width: 1000px;
+  }
+}
+
+@media (max-width: 1200px) {
+  main {
+    max-width: 800px;
+  }
+  
+  #habits-table {
+    min-width: 1000px;
+  }
+}
+
+@media (max-width: 768px) {
+  .habit-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+  
+  .add-habit-btn {
+    width: 100%;
+  }
+  
+  .habit-grid {
+    padding: 10px;
+  }
+  
+  #habits-table {
+    min-width: 800px;
+  }
+  
+  
+  #habits-table td.habit-name {
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  #habits-table {
+    min-width: 700px;
+  }
+  
+  
+  #habits-table td.habit-name {
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
+    font-size: 14px;
+  }
+  
+  .cell {
+    width: 18px;
+    height: 18px;
+  }
+}
