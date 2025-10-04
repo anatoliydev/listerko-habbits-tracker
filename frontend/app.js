@@ -990,7 +990,11 @@ document.addEventListener('DOMContentLoaded', function() {
   // Color picker for both modals
   const colorOptions = document.querySelectorAll('.color-option');
   colorOptions.forEach(option => {
+    // Click handler for desktop
     option.addEventListener('click', function() {
+      console.log('Color option clicked:', this.dataset.color);
+      console.log('User agent:', navigator.userAgent);
+      
       // Remove selection from all options in the same modal
       const modal = this.closest('.modal');
       const modalColorOptions = modal.querySelectorAll('.color-option');
@@ -998,6 +1002,26 @@ document.addEventListener('DOMContentLoaded', function() {
       // Add selection to clicked option
       this.classList.add('selected');
       
+      console.log('Color option selected, calling updateColorPreview');
+      // Update color preview in label
+      updateColorPreview(modal);
+    });
+    
+    // Touch handler for mobile
+    option.addEventListener('touchstart', function(e) {
+      console.log('Color option touched:', this.dataset.color);
+      console.log('User agent:', navigator.userAgent);
+      
+      e.preventDefault();
+      
+      // Remove selection from all options in the same modal
+      const modal = this.closest('.modal');
+      const modalColorOptions = modal.querySelectorAll('.color-option');
+      modalColorOptions.forEach(opt => opt.classList.remove('selected'));
+      // Add selection to clicked option
+      this.classList.add('selected');
+      
+      console.log('Color option selected via touch, calling updateColorPreview');
       // Update color preview in label
       updateColorPreview(modal);
     });
@@ -1267,9 +1291,16 @@ function updateColorPreview(modal) {
   const selectedColorOption = modal.querySelector('.color-option.selected');
   const previewElement = modal.querySelector('.selected-color-preview');
   
+  console.log('updateColorPreview called for modal:', modal.id);
+  console.log('Selected color option:', selectedColorOption);
+  console.log('Preview element:', previewElement);
+  
   if (selectedColorOption && previewElement) {
     const color = selectedColorOption.dataset.color;
     previewElement.style.backgroundColor = color;
     console.log('Updated color preview to:', color);
+    console.log('Preview element style after update:', previewElement.style.backgroundColor);
+  } else {
+    console.log('Missing elements - selectedColorOption:', !!selectedColorOption, 'previewElement:', !!previewElement);
   }
 }
