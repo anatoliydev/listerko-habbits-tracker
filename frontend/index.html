@@ -10,13 +10,11 @@
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-    <span class="theme-icon">🌙</span>
-</button>
 <main id="app">
     <section id="auth-view">
         <h1>Welcome</h1>
         <p>Sign in with email:</p>
+        <label for="email" class="sr-only">Email address</label>
         <input id="email" type="email" placeholder="you@example.com" />
         <button id="emailSignIn">Send magic link</button>
 
@@ -33,7 +31,12 @@
         <div class="habit-tracker">
             <div class="habit-header">
                 <h3>📊 Мої звички</h3>
-                <button id="add-habit" class="add-habit-btn">+ Додати звичку</button>
+                <div class="header-buttons">
+                    <button id="settings-btn" class="settings-btn-small" aria-label="Settings">
+                        <span class="settings-icon">⚙️</span>
+                    </button>
+                    <button id="add-habit" class="add-habit-btn">+ Додати звичку</button>
+                </div>
             </div>
             
             <div class="habit-grid">
@@ -58,6 +61,430 @@
         <button id="logout">Log out</button>
     </section>
 </main>
+
+<!-- Add Habit Modal -->
+<div id="add-habit-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Додати звичку</h3>
+            <button id="close-add-modal" class="close-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="add-habit-name">Назва звички:</label>
+                <input type="text" id="add-habit-name" placeholder="Введіть назву звички">
+            </div>
+            <div class="form-group">
+                <label>Колір звички: <span class="selected-color-preview" id="add-selected-color-preview"></span></label>
+                <div class="color-picker">
+                    <!-- Standard color palette covering full spectrum -->
+                    <!-- Row 1: Pure colors -->
+                    <div class="color-option" data-color="#ff0000" style="background-color: #ff0000;"></div>
+                    <div class="color-option" data-color="#ff8000" style="background-color: #ff8000;"></div>
+                    <div class="color-option" data-color="#ff3333" style="background-color: #ff3333;"></div>
+                    <div class="color-option" data-color="#ff4d4d" style="background-color: #ff4d4d;"></div>
+                    <div class="color-option" data-color="#ff6666" style="background-color: #ff6666;"></div>
+                    <div class="color-option" data-color="#ff8080" style="background-color: #ff8080;"></div>
+                    <div class="color-option" data-color="#ff9999" style="background-color: #ff9999;"></div>
+                    <div class="color-option" data-color="#ffb3b3" style="background-color: #ffb3b3;"></div>
+                    <div class="color-option" data-color="#ffcccc" style="background-color: #ffcccc;"></div>
+                    <div class="color-option" data-color="#ffe6e6" style="background-color: #ffe6e6;"></div>
+                    
+                    <!-- Oranges -->
+                    <div class="color-option" data-color="#ff8000" style="background-color: #ff8000;"></div>
+                    <div class="color-option" data-color="#ff8c1a" style="background-color: #ff8c1a;"></div>
+                    <div class="color-option" data-color="#ff9933" style="background-color: #ff9933;"></div>
+                    <div class="color-option" data-color="#ffa64d" style="background-color: #ffa64d;"></div>
+                    <div class="color-option" data-color="#ffb366" style="background-color: #ffb366;"></div>
+                    <div class="color-option" data-color="#ffc080" style="background-color: #ffc080;"></div>
+                    <div class="color-option" data-color="#ffcc99" style="background-color: #ffcc99;"></div>
+                    <div class="color-option" data-color="#ffd9b3" style="background-color: #ffd9b3;"></div>
+                    <div class="color-option" data-color="#ffe6cc" style="background-color: #ffe6cc;"></div>
+                    <div class="color-option" data-color="#fff2e6" style="background-color: #fff2e6;"></div>
+                    
+                    <!-- Yellows -->
+                    <div class="color-option" data-color="#ffff00" style="background-color: #ffff00;"></div>
+                    <div class="color-option" data-color="#ffff1a" style="background-color: #ffff1a;"></div>
+                    <div class="color-option" data-color="#ffff33" style="background-color: #ffff33;"></div>
+                    <div class="color-option" data-color="#ffff4d" style="background-color: #ffff4d;"></div>
+                    <div class="color-option" data-color="#ffff66" style="background-color: #ffff66;"></div>
+                    <div class="color-option" data-color="#ffff80" style="background-color: #ffff80;"></div>
+                    <div class="color-option" data-color="#ffff99" style="background-color: #ffff99;"></div>
+                    <div class="color-option" data-color="#ffffb3" style="background-color: #ffffb3;"></div>
+                    <div class="color-option" data-color="#ffffcc" style="background-color: #ffffcc;"></div>
+                    <div class="color-option" data-color="#ffffe6" style="background-color: #ffffe6;"></div>
+                    
+                    <!-- Greens -->
+                    <div class="color-option" data-color="#00ff00" style="background-color: #00ff00;"></div>
+                    <div class="color-option" data-color="#1aff1a" style="background-color: #1aff1a;"></div>
+                    <div class="color-option" data-color="#33ff33" style="background-color: #33ff33;"></div>
+                    <div class="color-option" data-color="#4dff4d" style="background-color: #4dff4d;"></div>
+                    <div class="color-option" data-color="#66ff66" style="background-color: #66ff66;"></div>
+                    <div class="color-option" data-color="#80ff80" style="background-color: #80ff80;"></div>
+                    <div class="color-option" data-color="#99ff99" style="background-color: #99ff99;"></div>
+                    <div class="color-option" data-color="#b3ffb3" style="background-color: #b3ffb3;"></div>
+                    <div class="color-option" data-color="#ccffcc" style="background-color: #ccffcc;"></div>
+                    <div class="color-option" data-color="#e6ffe6" style="background-color: #e6ffe6;"></div>
+                    
+                    <!-- Cyans -->
+                    <div class="color-option" data-color="#00ffff" style="background-color: #00ffff;"></div>
+                    <div class="color-option" data-color="#1affff" style="background-color: #1affff;"></div>
+                    <div class="color-option" data-color="#33ffff" style="background-color: #33ffff;"></div>
+                    <div class="color-option" data-color="#4dffff" style="background-color: #4dffff;"></div>
+                    <div class="color-option" data-color="#66ffff" style="background-color: #66ffff;"></div>
+                    <div class="color-option" data-color="#80ffff" style="background-color: #80ffff;"></div>
+                    <div class="color-option" data-color="#99ffff" style="background-color: #99ffff;"></div>
+                    <div class="color-option" data-color="#b3ffff" style="background-color: #b3ffff;"></div>
+                    <div class="color-option" data-color="#ccffff" style="background-color: #ccffff;"></div>
+                    <div class="color-option" data-color="#e6ffff" style="background-color: #e6ffff;"></div>
+                    
+                    <!-- Blues -->
+                    <div class="color-option" data-color="#0000ff" style="background-color: #0000ff;"></div>
+                    <div class="color-option" data-color="#1a1aff" style="background-color: #1a1aff;"></div>
+                    <div class="color-option" data-color="#3333ff" style="background-color: #3333ff;"></div>
+                    <div class="color-option" data-color="#4d4dff" style="background-color: #4d4dff;"></div>
+                    <div class="color-option" data-color="#6666ff" style="background-color: #6666ff;"></div>
+                    <div class="color-option" data-color="#8080ff" style="background-color: #8080ff;"></div>
+                    <div class="color-option" data-color="#9999ff" style="background-color: #9999ff;"></div>
+                    <div class="color-option" data-color="#b3b3ff" style="background-color: #b3b3ff;"></div>
+                    <div class="color-option" data-color="#ccccff" style="background-color: #ccccff;"></div>
+                    <div class="color-option" data-color="#e6e6ff" style="background-color: #e6e6ff;"></div>
+                    
+                    <!-- Magentas -->
+                    <div class="color-option" data-color="#ff00ff" style="background-color: #ff00ff;"></div>
+                    <div class="color-option" data-color="#ff1aff" style="background-color: #ff1aff;"></div>
+                    <div class="color-option" data-color="#ff33ff" style="background-color: #ff33ff;"></div>
+                    <div class="color-option" data-color="#ff4dff" style="background-color: #ff4dff;"></div>
+                    <div class="color-option" data-color="#ff66ff" style="background-color: #ff66ff;"></div>
+                    <div class="color-option" data-color="#ff80ff" style="background-color: #ff80ff;"></div>
+                    <div class="color-option" data-color="#ff99ff" style="background-color: #ff99ff;"></div>
+                    <div class="color-option" data-color="#ffb3ff" style="background-color: #ffb3ff;"></div>
+                    <div class="color-option" data-color="#ffccff" style="background-color: #ffccff;"></div>
+                    <div class="color-option" data-color="#ffe6ff" style="background-color: #ffe6ff;"></div>
+                    
+                    <!-- Grays -->
+                    <div class="color-option" data-color="#000000" style="background-color: #000000;"></div>
+                    <div class="color-option" data-color="#1a1a1a" style="background-color: #1a1a1a;"></div>
+                    <div class="color-option" data-color="#333333" style="background-color: #333333;"></div>
+                    <div class="color-option" data-color="#4d4d4d" style="background-color: #4d4d4d;"></div>
+                    <div class="color-option" data-color="#666666" style="background-color: #666666;"></div>
+                    <div class="color-option" data-color="#808080" style="background-color: #808080;"></div>
+                    <div class="color-option" data-color="#999999" style="background-color: #999999;"></div>
+                    <div class="color-option" data-color="#b3b3b3" style="background-color: #b3b3b3;"></div>
+                    <div class="color-option" data-color="#cccccc" style="background-color: #cccccc;"></div>
+                    <div class="color-option" data-color="#e6e6e6" style="background-color: #e6e6e6;"></div>
+                    
+                    <!-- Purples -->
+                    <div class="color-option" data-color="#800080" style="background-color: #800080;"></div>
+                    <div class="color-option" data-color="#8c1a8c" style="background-color: #8c1a8c;"></div>
+                    <div class="color-option" data-color="#993399" style="background-color: #993399;"></div>
+                    <div class="color-option" data-color="#a64da6" style="background-color: #a64da6;"></div>
+                    <div class="color-option" data-color="#b366b3" style="background-color: #b366b3;"></div>
+                    <div class="color-option" data-color="#c080c0" style="background-color: #c080c0;"></div>
+                    <div class="color-option" data-color="#cc99cc" style="background-color: #cc99cc;"></div>
+                    <div class="color-option" data-color="#d9b3d9" style="background-color: #d9b3d9;"></div>
+                    <div class="color-option" data-color="#e6cce6" style="background-color: #e6cce6;"></div>
+                    <div class="color-option" data-color="#f2e6f2" style="background-color: #f2e6f2;"></div>
+                    
+                    <!-- Browns -->
+                    <div class="color-option" data-color="#8b4513" style="background-color: #8b4513;"></div>
+                    <div class="color-option" data-color="#a0522d" style="background-color: #a0522d;"></div>
+                    <div class="color-option" data-color="#cd853f" style="background-color: #cd853f;"></div>
+                    <div class="color-option" data-color="#d2691e" style="background-color: #d2691e;"></div>
+                    <div class="color-option" data-color="#daa520" style="background-color: #daa520;"></div>
+                    <div class="color-option" data-color="#deb887" style="background-color: #deb887;"></div>
+                    <div class="color-option" data-color="#f4a460" style="background-color: #f4a460;"></div>
+                    <div class="color-option" data-color="#f5deb3" style="background-color: #f5deb3;"></div>
+                    <div class="color-option" data-color="#faebd7" style="background-color: #faebd7;"></div>
+                    <div class="color-option" data-color="#fff8dc" style="background-color: #fff8dc;"></div>
+                    
+                    <!-- Pinks -->
+                    <div class="color-option" data-color="#ff69b4" style="background-color: #ff69b4;"></div>
+                    <div class="color-option" data-color="#ff1493" style="background-color: #ff1493;"></div>
+                    <div class="color-option" data-color="#ffc0cb" style="background-color: #ffc0cb;"></div>
+                    <div class="color-option" data-color="#ffb6c1" style="background-color: #ffb6c1;"></div>
+                    <div class="color-option" data-color="#ffa0b4" style="background-color: #ffa0b4;"></div>
+                    <div class="color-option" data-color="#ff8fa3" style="background-color: #ff8fa3;"></div>
+                    <div class="color-option" data-color="#ff7f92" style="background-color: #ff7f92;"></div>
+                    <div class="color-option" data-color="#ff6f81" style="background-color: #ff6f81;"></div>
+                    <div class="color-option" data-color="#ff5f70" style="background-color: #ff5f70;"></div>
+                    <div class="color-option" data-color="#ff4f5f" style="background-color: #ff4f5f;"></div>
+                    
+                    <!-- Teals -->
+                    <div class="color-option" data-color="#008080" style="background-color: #008080;"></div>
+                    <div class="color-option" data-color="#1a8c8c" style="background-color: #1a8c8c;"></div>
+                    <div class="color-option" data-color="#339999" style="background-color: #339999;"></div>
+                    <div class="color-option" data-color="#4da6a6" style="background-color: #4da6a6;"></div>
+                    <div class="color-option" data-color="#66b3b3" style="background-color: #66b3b3;"></div>
+                    <div class="color-option" data-color="#80c0c0" style="background-color: #80c0c0;"></div>
+                    <div class="color-option" data-color="#99cccc" style="background-color: #99cccc;"></div>
+                    <div class="color-option" data-color="#b3d9d9" style="background-color: #b3d9d9;"></div>
+                    <div class="color-option" data-color="#cce6e6" style="background-color: #cce6e6;"></div>
+                    <div class="color-option" data-color="#e6f2f2" style="background-color: #e6f2f2;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="cancel-add-habit-btn" class="cancel-btn">Скасувати</button>
+            <button id="create-habit-btn" class="save-btn">Створити звичку</button>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Habit Modal -->
+<div id="edit-habit-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Редагувати звичку</h3>
+            <button id="close-modal" class="close-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="edit-habit-name">Назва звички:</label>
+                <input type="text" id="edit-habit-name" placeholder="Введіть назву звички">
+            </div>
+            <div class="form-group">
+                <label>Колір звички: <span class="selected-color-preview" id="edit-selected-color-preview"></span></label>
+                <div class="color-picker">
+                    <!-- Reds -->
+                    <div class="color-option" data-color="#ff0000" style="background-color: #ff0000;"></div>
+                    <div class="color-option" data-color="#ff1a1a" style="background-color: #ff1a1a;"></div>
+                    <div class="color-option" data-color="#ff3333" style="background-color: #ff3333;"></div>
+                    <div class="color-option" data-color="#ff4d4d" style="background-color: #ff4d4d;"></div>
+                    <div class="color-option" data-color="#ff6666" style="background-color: #ff6666;"></div>
+                    <div class="color-option" data-color="#ff8080" style="background-color: #ff8080;"></div>
+                    <div class="color-option" data-color="#ff9999" style="background-color: #ff9999;"></div>
+                    <div class="color-option" data-color="#ffb3b3" style="background-color: #ffb3b3;"></div>
+                    <div class="color-option" data-color="#ffcccc" style="background-color: #ffcccc;"></div>
+                    <div class="color-option" data-color="#ffe6e6" style="background-color: #ffe6e6;"></div>
+                    
+                    <!-- Oranges -->
+                    <div class="color-option" data-color="#ff8000" style="background-color: #ff8000;"></div>
+                    <div class="color-option" data-color="#ff8c1a" style="background-color: #ff8c1a;"></div>
+                    <div class="color-option" data-color="#ff9933" style="background-color: #ff9933;"></div>
+                    <div class="color-option" data-color="#ffa64d" style="background-color: #ffa64d;"></div>
+                    <div class="color-option" data-color="#ffb366" style="background-color: #ffb366;"></div>
+                    <div class="color-option" data-color="#ffc080" style="background-color: #ffc080;"></div>
+                    <div class="color-option" data-color="#ffcc99" style="background-color: #ffcc99;"></div>
+                    <div class="color-option" data-color="#ffd9b3" style="background-color: #ffd9b3;"></div>
+                    <div class="color-option" data-color="#ffe6cc" style="background-color: #ffe6cc;"></div>
+                    <div class="color-option" data-color="#fff2e6" style="background-color: #fff2e6;"></div>
+                    
+                    <!-- Yellows -->
+                    <div class="color-option" data-color="#ffff00" style="background-color: #ffff00;"></div>
+                    <div class="color-option" data-color="#ffff1a" style="background-color: #ffff1a;"></div>
+                    <div class="color-option" data-color="#ffff33" style="background-color: #ffff33;"></div>
+                    <div class="color-option" data-color="#ffff4d" style="background-color: #ffff4d;"></div>
+                    <div class="color-option" data-color="#ffff66" style="background-color: #ffff66;"></div>
+                    <div class="color-option" data-color="#ffff80" style="background-color: #ffff80;"></div>
+                    <div class="color-option" data-color="#ffff99" style="background-color: #ffff99;"></div>
+                    <div class="color-option" data-color="#ffffb3" style="background-color: #ffffb3;"></div>
+                    <div class="color-option" data-color="#ffffcc" style="background-color: #ffffcc;"></div>
+                    <div class="color-option" data-color="#ffffe6" style="background-color: #ffffe6;"></div>
+                    
+                    <!-- Greens -->
+                    <div class="color-option" data-color="#00ff00" style="background-color: #00ff00;"></div>
+                    <div class="color-option" data-color="#1aff1a" style="background-color: #1aff1a;"></div>
+                    <div class="color-option" data-color="#33ff33" style="background-color: #33ff33;"></div>
+                    <div class="color-option" data-color="#4dff4d" style="background-color: #4dff4d;"></div>
+                    <div class="color-option" data-color="#66ff66" style="background-color: #66ff66;"></div>
+                    <div class="color-option" data-color="#80ff80" style="background-color: #80ff80;"></div>
+                    <div class="color-option" data-color="#99ff99" style="background-color: #99ff99;"></div>
+                    <div class="color-option" data-color="#b3ffb3" style="background-color: #b3ffb3;"></div>
+                    <div class="color-option" data-color="#ccffcc" style="background-color: #ccffcc;"></div>
+                    <div class="color-option" data-color="#e6ffe6" style="background-color: #e6ffe6;"></div>
+                    
+                    <!-- Cyans -->
+                    <div class="color-option" data-color="#00ffff" style="background-color: #00ffff;"></div>
+                    <div class="color-option" data-color="#1affff" style="background-color: #1affff;"></div>
+                    <div class="color-option" data-color="#33ffff" style="background-color: #33ffff;"></div>
+                    <div class="color-option" data-color="#4dffff" style="background-color: #4dffff;"></div>
+                    <div class="color-option" data-color="#66ffff" style="background-color: #66ffff;"></div>
+                    <div class="color-option" data-color="#80ffff" style="background-color: #80ffff;"></div>
+                    <div class="color-option" data-color="#99ffff" style="background-color: #99ffff;"></div>
+                    <div class="color-option" data-color="#b3ffff" style="background-color: #b3ffff;"></div>
+                    <div class="color-option" data-color="#ccffff" style="background-color: #ccffff;"></div>
+                    <div class="color-option" data-color="#e6ffff" style="background-color: #e6ffff;"></div>
+                    
+                    <!-- Blues -->
+                    <div class="color-option" data-color="#0000ff" style="background-color: #0000ff;"></div>
+                    <div class="color-option" data-color="#1a1aff" style="background-color: #1a1aff;"></div>
+                    <div class="color-option" data-color="#3333ff" style="background-color: #3333ff;"></div>
+                    <div class="color-option" data-color="#4d4dff" style="background-color: #4d4dff;"></div>
+                    <div class="color-option" data-color="#6666ff" style="background-color: #6666ff;"></div>
+                    <div class="color-option" data-color="#8080ff" style="background-color: #8080ff;"></div>
+                    <div class="color-option" data-color="#9999ff" style="background-color: #9999ff;"></div>
+                    <div class="color-option" data-color="#b3b3ff" style="background-color: #b3b3ff;"></div>
+                    <div class="color-option" data-color="#ccccff" style="background-color: #ccccff;"></div>
+                    <div class="color-option" data-color="#e6e6ff" style="background-color: #e6e6ff;"></div>
+                    
+                    <!-- Magentas -->
+                    <div class="color-option" data-color="#ff00ff" style="background-color: #ff00ff;"></div>
+                    <div class="color-option" data-color="#ff1aff" style="background-color: #ff1aff;"></div>
+                    <div class="color-option" data-color="#ff33ff" style="background-color: #ff33ff;"></div>
+                    <div class="color-option" data-color="#ff4dff" style="background-color: #ff4dff;"></div>
+                    <div class="color-option" data-color="#ff66ff" style="background-color: #ff66ff;"></div>
+                    <div class="color-option" data-color="#ff80ff" style="background-color: #ff80ff;"></div>
+                    <div class="color-option" data-color="#ff99ff" style="background-color: #ff99ff;"></div>
+                    <div class="color-option" data-color="#ffb3ff" style="background-color: #ffb3ff;"></div>
+                    <div class="color-option" data-color="#ffccff" style="background-color: #ffccff;"></div>
+                    <div class="color-option" data-color="#ffe6ff" style="background-color: #ffe6ff;"></div>
+                    
+                    <!-- Grays -->
+                    <div class="color-option" data-color="#000000" style="background-color: #000000;"></div>
+                    <div class="color-option" data-color="#1a1a1a" style="background-color: #1a1a1a;"></div>
+                    <div class="color-option" data-color="#333333" style="background-color: #333333;"></div>
+                    <div class="color-option" data-color="#4d4d4d" style="background-color: #4d4d4d;"></div>
+                    <div class="color-option" data-color="#666666" style="background-color: #666666;"></div>
+                    <div class="color-option" data-color="#808080" style="background-color: #808080;"></div>
+                    <div class="color-option" data-color="#999999" style="background-color: #999999;"></div>
+                    <div class="color-option" data-color="#b3b3b3" style="background-color: #b3b3b3;"></div>
+                    <div class="color-option" data-color="#cccccc" style="background-color: #cccccc;"></div>
+                    <div class="color-option" data-color="#e6e6e6" style="background-color: #e6e6e6;"></div>
+                    
+                    <!-- Purples -->
+                    <div class="color-option" data-color="#800080" style="background-color: #800080;"></div>
+                    <div class="color-option" data-color="#8c1a8c" style="background-color: #8c1a8c;"></div>
+                    <div class="color-option" data-color="#993399" style="background-color: #993399;"></div>
+                    <div class="color-option" data-color="#a64da6" style="background-color: #a64da6;"></div>
+                    <div class="color-option" data-color="#b366b3" style="background-color: #b366b3;"></div>
+                    <div class="color-option" data-color="#c080c0" style="background-color: #c080c0;"></div>
+                    <div class="color-option" data-color="#cc99cc" style="background-color: #cc99cc;"></div>
+                    <div class="color-option" data-color="#d9b3d9" style="background-color: #d9b3d9;"></div>
+                    <div class="color-option" data-color="#e6cce6" style="background-color: #e6cce6;"></div>
+                    <div class="color-option" data-color="#f2e6f2" style="background-color: #f2e6f2;"></div>
+                    
+                    <!-- Browns -->
+                    <div class="color-option" data-color="#8b4513" style="background-color: #8b4513;"></div>
+                    <div class="color-option" data-color="#a0522d" style="background-color: #a0522d;"></div>
+                    <div class="color-option" data-color="#cd853f" style="background-color: #cd853f;"></div>
+                    <div class="color-option" data-color="#d2691e" style="background-color: #d2691e;"></div>
+                    <div class="color-option" data-color="#daa520" style="background-color: #daa520;"></div>
+                    <div class="color-option" data-color="#deb887" style="background-color: #deb887;"></div>
+                    <div class="color-option" data-color="#f4a460" style="background-color: #f4a460;"></div>
+                    <div class="color-option" data-color="#f5deb3" style="background-color: #f5deb3;"></div>
+                    <div class="color-option" data-color="#faebd7" style="background-color: #faebd7;"></div>
+                    <div class="color-option" data-color="#fff8dc" style="background-color: #fff8dc;"></div>
+                    
+                    <!-- Pinks -->
+                    <div class="color-option" data-color="#ff69b4" style="background-color: #ff69b4;"></div>
+                    <div class="color-option" data-color="#ff1493" style="background-color: #ff1493;"></div>
+                    <div class="color-option" data-color="#ffc0cb" style="background-color: #ffc0cb;"></div>
+                    <div class="color-option" data-color="#ffb6c1" style="background-color: #ffb6c1;"></div>
+                    <div class="color-option" data-color="#ffa0b4" style="background-color: #ffa0b4;"></div>
+                    <div class="color-option" data-color="#ff8fa3" style="background-color: #ff8fa3;"></div>
+                    <div class="color-option" data-color="#ff7f92" style="background-color: #ff7f92;"></div>
+                    <div class="color-option" data-color="#ff6f81" style="background-color: #ff6f81;"></div>
+                    <div class="color-option" data-color="#ff5f70" style="background-color: #ff5f70;"></div>
+                    <div class="color-option" data-color="#ff4f5f" style="background-color: #ff4f5f;"></div>
+                    
+                    <!-- Teals -->
+                    <div class="color-option" data-color="#008080" style="background-color: #008080;"></div>
+                    <div class="color-option" data-color="#1a8c8c" style="background-color: #1a8c8c;"></div>
+                    <div class="color-option" data-color="#339999" style="background-color: #339999;"></div>
+                    <div class="color-option" data-color="#4da6a6" style="background-color: #4da6a6;"></div>
+                    <div class="color-option" data-color="#66b3b3" style="background-color: #66b3b3;"></div>
+                    <div class="color-option" data-color="#80c0c0" style="background-color: #80c0c0;"></div>
+                    <div class="color-option" data-color="#99cccc" style="background-color: #99cccc;"></div>
+                    <div class="color-option" data-color="#b3d9d9" style="background-color: #b3d9d9;"></div>
+                    <div class="color-option" data-color="#cce6e6" style="background-color: #cce6e6;"></div>
+                    <div class="color-option" data-color="#e6f2f2" style="background-color: #e6f2f2;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="delete-habit-btn" class="delete-btn">Видалити</button>
+            <button id="save-habit-btn" class="save-btn">Зберегти</button>
+        </div>
+    </div>
+</div>
+
+<!-- Settings Modal -->
+<div id="settings-modal" class="modal" style="display: none;">
+    <div class="modal-content draggable-modal">
+        <div class="modal-header draggable-header">
+            <h3>Налаштування</h3>
+            <button id="close-settings-modal" class="close-btn">&times;</button>
+        </div>
+        <div class="modal-body compact-settings">
+            <div class="settings-row">
+                <div class="form-group compact">
+                    <label for="theme-select">Тема:</label>
+                    <select id="theme-select" class="form-select compact">
+                        <option value="dark">Темна</option>
+                        <option value="light">Світла</option>
+                    </select>
+                </div>
+                <div class="form-group compact">
+                    <label for="days-count-slider">Днів:</label>
+                    <div class="slider-container compact">
+                        <input type="range" id="days-count-slider" min="7" max="30" step="1" value="18" class="slider">
+                        <div class="slider-labels">
+                            <span>7</span>
+                            <span>15</span>
+                            <span>30</span>
+                        </div>
+                        <div class="slider-value">
+                            <span id="days-count-value">18</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="settings-row">
+                <div class="form-group compact">
+                    <label for="spacing-slider">Щільність:</label>
+                    <div class="slider-container compact">
+                        <input type="range" id="spacing-slider" min="0.5" max="2" step="0.1" value="1.1" class="slider">
+                        <div class="slider-labels">
+                            <span>Компактно</span>
+                            <span>Стандартно</span>
+                            <span>Просторо</span>
+                        </div>
+                        <div class="slider-value">
+                            <span id="spacing-value">1.1</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group compact">
+                    <label for="cell-size-slider">Розмір квадратиків:</label>
+                    <div class="slider-container compact">
+                        <input type="range" id="cell-size-slider" min="0.7" max="1.5" step="0.1" value="0.8" class="slider">
+                        <div class="slider-labels">
+                            <span>Малі</span>
+                            <span>Стандарт</span>
+                            <span>Великі</span>
+                        </div>
+                        <div class="slider-value">
+                            <span id="cell-size-value">0.8</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="settings-row">
+                <div class="form-group compact">
+                    <label for="cell-gap-slider">Відступи між квадратиками:</label>
+                    <div class="slider-container compact">
+                        <input type="range" id="cell-gap-slider" min="0.05" max="0.5" step="0.05" value="0.1" class="slider">
+                        <div class="slider-labels">
+                            <span>Мінімальні</span>
+                            <span>Стандартні</span>
+                            <span>Помірні</span>
+                        </div>
+                        <div class="slider-value">
+                            <span id="cell-gap-value">0.1</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="reset-settings-btn" class="reset-btn">Скинути</button>
+            <button id="save-settings-btn" class="save-btn">Зберегти</button>
+        </div>
+    </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
